@@ -1,3 +1,5 @@
+import { IsNotEmpty, IsString } from 'class-validator';
+
 export interface User {
   id: string; // uuid v4
   login: string;
@@ -33,19 +35,25 @@ export interface Favorites {
   albums: string[]; // favorite albums ids
   tracks: string[]; // favorite tracks ids
 }
-
-export interface CreateUserDto {
-  login: string;
-  password: string;
-}
-
-export interface UpdatePasswordDto {
-  oldPassword: string; // previous password
-  newPassword: string; // new password
-}
-
 export interface FavoritesResponse {
   artists: Artist[];
   albums: Album[];
   tracks: Track[];
+}
+export class CreateUserDto {
+  @IsNotEmpty()
+  @IsString()
+  login: string;
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+}
+
+export class UpdatePasswordDto {
+  @IsNotEmpty()
+  @IsString()
+  oldPassword: string; // previous password
+  @IsNotEmpty()
+  @IsString()
+  newPassword: string; // new password
 }
