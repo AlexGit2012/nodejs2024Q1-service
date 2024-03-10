@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export interface User {
   id: string; // uuid v4
@@ -56,4 +56,34 @@ export class UpdatePasswordDto {
   @IsNotEmpty()
   @IsString()
   newPassword: string; // new password
+}
+
+export class CreateTrackDto {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+  @IsNotEmpty()
+  @IsString()
+  artistId: string | null; // refers to Artist
+  @IsNotEmpty()
+  @IsString()
+  albumId: string | null; // refers to Album
+  @IsNotEmpty()
+  @IsNumber()
+  duration: number; // integer number
+}
+
+export class UpdateTrackDto {
+  @IsOptional()
+  @IsString()
+  name: string;
+  @IsOptional()
+  @IsString()
+  artistId: string | null; // refers to Artist
+  @IsOptional()
+  @IsString()
+  albumId: string | null; // refers to Album
+  @IsOptional()
+  @IsNumber()
+  duration: number; // integer number
 }
