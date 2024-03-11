@@ -3,6 +3,7 @@ import { Errors } from 'src/errors/errors';
 import { CreateAlbumDto, Album, UpdateAlbumDto } from 'src/types/types';
 import { v4 as uuidv4 } from 'uuid';
 import { getTracks } from './fakeTracksDatabase';
+import { getFavorites, setFavorites } from './fakeFavoritesDatabase';
 
 let albums: Album[] = [];
 
@@ -21,7 +22,7 @@ export const findAlbum = (id: string) => {
 };
 
 export const createAlbum = (dto: CreateAlbumDto) => {
-  let album: Album = {
+  const album: Album = {
     id: uuidv4(),
     ...dto,
   };
@@ -48,4 +49,11 @@ export const deleteAlbum = (id: string) => {
   }
   const newAlbumsArr = getAlbums().filter((album) => album.id !== id);
   setAlbums(newAlbumsArr);
+
+  let newFavorites = getFavorites();
+  newFavorites = {
+    ...newFavorites,
+    albums: newFavorites.albums.filter((albumId) => albumId !== id),
+  };
+  setFavorites(newFavorites);
 };

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   HttpCode,
   HttpException,
   HttpStatus,
@@ -40,20 +41,22 @@ export class TracksController {
   }
 
   @Post('/track')
+  @Header('content-type', 'application/json')
   @UsePipes(new ValidationPipe({ skipNullProperties: true }))
   createTrack(@Body() dto: CreateTrackDto): Track {
     return this.tracksService.createTrack(dto);
   }
 
   @Put('/track/:id')
-  @UsePipes(new ValidationPipe())
+  @Header('content-type', 'application/json')
+  @UsePipes(new ValidationPipe({ skipNullProperties: true }))
   updateTrack(@Param('id') id: string, @Body() dto: UpdateTrackDto) {
     if (!isUUID(id)) {
       throw new HttpException(Errors.INVALID_UUID, HttpStatus.BAD_REQUEST);
     }
 
-    const Track = this.tracksService.getTrack(id);
-    if (!Track) {
+    const track = this.tracksService.getTrack(id);
+    if (!track) {
       throw new HttpException(Errors.NOT_EXIST, HttpStatus.NOT_FOUND);
     }
 
@@ -75,8 +78,8 @@ export class TracksController {
       throw new HttpException(Errors.INVALID_UUID, HttpStatus.BAD_REQUEST);
     }
 
-    const Track = this.tracksService.getTrack(id);
-    if (!Track) {
+    const track = this.tracksService.getTrack(id);
+    if (!track) {
       throw new HttpException(Errors.NOT_EXIST, HttpStatus.NOT_FOUND);
     }
 

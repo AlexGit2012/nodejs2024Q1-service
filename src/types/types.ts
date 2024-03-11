@@ -1,10 +1,4 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export interface User {
   id: string; // uuid v4
@@ -69,11 +63,9 @@ export class CreateTrackDto {
   @IsString()
   name: string;
   @IsNotEmpty()
-  @IsOptional()
   @IsString()
   artistId: string | null; // refers to Artist
   @IsNotEmpty()
-  @IsOptional()
   @IsString()
   albumId: string | null; // refers to Album
   @IsNotEmpty()
@@ -82,16 +74,16 @@ export class CreateTrackDto {
 }
 
 export class UpdateTrackDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   name: string;
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   artistId: string | null; // refers to Artist
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   albumId: string | null; // refers to Album
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   duration: number; // integer number
 }
@@ -106,10 +98,10 @@ export class CreateArtistDto {
 }
 
 export class UpdateArtistDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   name: string;
-  @IsOptional()
+  @IsNotEmpty()
   @IsBoolean()
   grammy: boolean;
 }
@@ -122,19 +114,18 @@ export class CreateAlbumDto {
   @IsNumber()
   year: number;
   @IsNotEmpty()
-  @IsOptional()
   @IsString()
   artistId: string | null;
 }
 
 export class UpdateAlbumDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   name: string;
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   year: number;
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   artistId: string | null;
 }

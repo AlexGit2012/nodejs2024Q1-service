@@ -2,6 +2,7 @@ import { isUUID } from 'class-validator';
 import { Errors } from 'src/errors/errors';
 import { CreateTrackDto, Track, UpdateTrackDto } from 'src/types/types';
 import { v4 as uuidv4 } from 'uuid';
+import { getFavorites, setFavorites } from './fakeFavoritesDatabase';
 
 let tracks: Track[] = [];
 
@@ -20,7 +21,7 @@ export const findTrack = (id: string) => {
 };
 
 export const createTrack = (dto: CreateTrackDto) => {
-  let track: Track = {
+  const track: Track = {
     id: uuidv4(),
     ...dto,
   };
@@ -43,4 +44,11 @@ export const updateTrack = (id: string, dto: UpdateTrackDto) => {
 export const deleteTrack = (id: string) => {
   const newTracksArr = getTracks().filter((track) => track.id !== id);
   setTracks(newTracksArr);
+
+  let newFavorites = getFavorites();
+  newFavorites = {
+    ...newFavorites,
+    tracks: newFavorites.tracks.filter((trackId) => trackId !== id),
+  };
+  setFavorites(newFavorites);
 };

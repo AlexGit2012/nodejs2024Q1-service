@@ -28,7 +28,7 @@ export const findUserByLogin = (login: string) => {
 export const createUser = (dto: CreateUserDto) => {
   const { password, login } = dto;
 
-  let user: User = {
+  const user: User = {
     id: uuidv4(),
     login,
     password,

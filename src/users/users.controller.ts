@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   HttpCode,
   HttpException,
   HttpStatus,
@@ -40,12 +41,14 @@ export class UsersController {
   }
 
   @Post('/user')
+  @Header('content-type', 'application/json')
   @UsePipes(new ValidationPipe())
   createUser(@Body() dto: CreateUserDto): User {
     return this.usersService.createUser(dto);
   }
 
   @Put('/user/:id')
+  @Header('content-type', 'application/json')
   @UsePipes(new ValidationPipe())
   updateUser(@Param('id') id: string, @Body() dto: UpdatePasswordDto) {
     if (!isUUID(id)) {

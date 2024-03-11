@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   HttpCode,
   HttpException,
   HttpStatus,
@@ -40,13 +41,15 @@ export class AlbumsController {
   }
 
   @Post('/album')
+  @Header('content-type', 'application/json')
   @UsePipes(new ValidationPipe({ skipNullProperties: true }))
   createAlbum(@Body() dto: CreateAlbumDto): Album {
     return this.albumsService.createAlbum(dto);
   }
 
   @Put('/album/:id')
-  @UsePipes(new ValidationPipe())
+  @Header('content-type', 'application/json')
+  @UsePipes(new ValidationPipe({ skipNullProperties: true }))
   updateAlbum(@Param('id') id: string, @Body() dto: UpdateAlbumDto) {
     if (!isUUID(id)) {
       throw new HttpException(Errors.INVALID_UUID, HttpStatus.BAD_REQUEST);

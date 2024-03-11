@@ -4,6 +4,7 @@ import { CreateArtistDto, Artist, UpdateArtistDto } from 'src/types/types';
 import { v4 as uuidv4 } from 'uuid';
 import { getTracks } from './fakeTracksDatabase';
 import { getAlbums } from './fakeAlbumsDatabase';
+import { getFavorites, setFavorites } from './fakeFavoritesDatabase';
 
 let artists: Artist[] = [];
 
@@ -22,7 +23,7 @@ export const findArtist = (id: string) => {
 };
 
 export const createArtist = (dto: CreateArtistDto) => {
-  let artist: Artist = {
+  const artist: Artist = {
     id: uuidv4(),
     ...dto,
   };
@@ -55,4 +56,11 @@ export const deleteArtist = (id: string) => {
 
   const newArtistsArr = getArtists().filter((artist) => artist.id !== id);
   setArtists(newArtistsArr);
+
+  let newFavorites = getFavorites();
+  newFavorites = {
+    ...newFavorites,
+    artists: newFavorites.artists.filter((artistId) => artistId !== id),
+  };
+  setFavorites(newFavorites);
 };
